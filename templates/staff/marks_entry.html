@@ -1,0 +1,43 @@
+{% extends 'staff/staff_base.html' %}
+{% block content %}
+    <h1 style="color: #4e4376; margin-bottom: 20px;">Marks Entry</h1>
+
+    <!-- form for inserting marks -->
+    <form method="POST" action="{{ url_for('staff_entries.marks_entry') }}">
+        <h3>Add Subject Mark</h3>
+        <label>Username:</label>
+        <select name="username" required>
+          <option value="">-- Select student --</option>
+          {% for student in student_c %}
+            <option value="{{ student['username'] }}">{{ student['username'] }}</option>
+          {% endfor %}
+        </select>
+        <label>Subject:</label>
+        <input type="text" name="subject" placeholder="e.g. math" required>
+        <label>Mark:</label>
+        <input type="number" name="mark" min="0" max="100" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2 style="color: #4e4376; margin-top: 30px; margin-bottom: 20px;">Student Marks</h2>
+
+    <!-- view table of current marks -->
+    <table class="data-table">
+        <thead>
+            <tr>
+                {% for col in columns %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                {% for col in columns %}
+                    <td>{{ row[col] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

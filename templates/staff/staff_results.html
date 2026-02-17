@@ -1,0 +1,22 @@
+{% extends 'staff/staff_base.html' %}
+{% block content %}
+    <h1 style="color: #4e4376; margin-bottom: 20px;">Student Marks</h1>
+    <table class="data-table">
+        <thead>
+            <tr>
+                {% for col in results[0].keys() %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                {% for col in row.values() %}
+                <td>{{ col }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

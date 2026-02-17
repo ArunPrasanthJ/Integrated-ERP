@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College ERP Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("{{ url_for('static', filename='Back.jpeg') }}") no-repeat center center/cover;
+       background-size: cover; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .sticky-div {
+      position: sticky;
+      bottom: 0; /* or top: 0 to stick at top */
+      padding: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+    ul { list-style-type: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>College ERP Login</h2>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      {{ form.username(size=32, placeholder="Username") }}
+      {{ form.password(size=32, placeholder="Password") }}
+      <button type="submit">Login</button>
+    </form>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li class="error">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  
+</body>
+</html>

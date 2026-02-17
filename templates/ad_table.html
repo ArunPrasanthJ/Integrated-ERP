@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admission details</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f4f6fb;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #fff;
+      height: 150vh;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4e4376;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li:hover, .sidebar ul li.active {
+      background: #4e4376;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .sidebar .bottom {
+      padding: 15px 20px;
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h3 {
+      color: #4e4376;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    /* Card */
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: #4e4376;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    form input, form textarea, form select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    form button {
+      padding: 10px 20px;
+      background: #4e4376;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: #3b3055;
+    }
+        table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #eee;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background: #4e4376;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .pass {
+      color: green;
+      font-weight: bold;
+    }
+    .sticky-div {
+      position: sticky;
+      bottom: 0; /* or top: 0 to stick at top */
+      padding: 5px;
+    }
+    .fail {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>College ERP</h2>
+      <ul>
+        <li onclick="gotodash()">Dashboard</li>
+        <li onclick="gotoaddusers()">Add users</li>
+        <li onclick="gotostudpay()">Students payment</li>
+        <li onclick="gotosheets()">Admission sheets</li>
+        <li class="active">Form tables</li>
+      </ul>
+    </div>
+  <div class="sticky-div">
+    <div class="bottom">
+      ⚙ Settings
+
+      <div id="logout" style="display:none; margin-top:10px; cursor:pointer; color:#4e4376;" onclick="logout()">
+        🔒 Logout
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <h3>Feedback</h3>
+      <div class="profile">
+        <span>Welcome, {{ session.username }}</span>
+        <img src="/static/log.jpg" alt="Logo Placeholder" />
+      </div>
+    </div>
+
+    <h2>Enter Table Name</h2>
+    <form method="POST">
+        <input type="text" name="table_name" placeholder="Enter table name" required>
+        <button type="submit">Show Table</button>
+    </form>
+
+    {% if table_name %}
+        <h3>Showing Table: {{ table_name }}</h3>
+        {% if data %}
+            <table>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in data %}
+                    <tr>
+                        {% for col in columns %}
+                            <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No data found in table <b>{{ table_name }}</b> or invalid table name.</p>
+        {% endif %}
+    {% endif %}
+
+   <script>
+  const settings = document.querySelector('.sidebar .bottom');
+  const logoutBtn = document.getElementById('logout');
+
+  // Toggle logout option
+  settings.addEventListener('click', () => {
+    logoutBtn.style.display = logoutBtn.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Redirect to your existing login page
+function logout(){
+      window.location.href="{{url_for('logout')}}";
+}
+function gotodash(){
+      window.location.href="{{url_for('ad_d.admin_dashboard')}}";
+}
+function gotoaddusers(){
+      window.location.href="{{url_for('ad_u.manage_users')}}";
+}
+function gotostudpay(){
+      window.location.href="{{url_for('ad_p.payment_details')}}";
+}
+function gotosheets(){
+      window.location.href="{{url_for('ad_s.sheet_index')}}";
+}
+function gototable(){
+      window.location.href="{{url_for('ad_t.table')}}";
+}
+</script>
+</body>
+</html>

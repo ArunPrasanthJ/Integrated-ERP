@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Users</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f4f6fb;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #fff;
+      height: 150vh;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4e4376;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li:hover, .sidebar ul li.active {
+      background: #4e4376;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .sidebar .bottom {
+      padding: 15px 20px;
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h3 {
+      color: #4e4376;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    /* Card */
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: #4e4376;
+    }
+    /* Style the select box */
+    select {
+      width: 100%;                 /* Full width inside the form */
+      padding: 10px;               /* Space inside */
+      border: 1px solid #ccc;      /* Light border */
+      border-radius: 8px;          /* Rounded corners */
+      background-color: #fff;      /* Background */
+      font-size: 16px;             /* Font size */
+      color: #333;                 /* Text color */
+      appearance: none;            /* Remove default arrow */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* Soft shadow */
+    }
+
+    /* Style dropdown options */
+    select option {
+      padding: 10px;
+      font-size: 15px;
+      background: #fff;
+      color: #333;
+    }
+
+    /* On hover for options */
+    select option:hover {
+      background: #f0f0f0;
+    }
+
+    /* Add custom dropdown arrow */
+    select {
+      background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    form input, form textarea, form select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    form button {
+      padding: 10px 20px;
+      background: #4e4376;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: #3b3055;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #eee;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background: #4e4376;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .pass {
+      color: green;
+      font-weight: bold;
+    }
+    .sticky-div {
+      position: sticky;
+      bottom: 0; /* or top: 0 to stick at top */
+      padding: 5px;
+    }
+    .fail {
+      color: red;
+      font-weight: bold;
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>College ERP</h2>
+      <ul>
+        <li onclick="gotodash()">Dashboard</li>
+        <li class="active">Add users</li>
+        <li onclick="gotostudpay()">Students payment</li>
+        <li onclick="gotosheets()">Admission sheets</li>
+        <li onclick="gototable()">Form tables</li>
+      </ul>
+    </div>
+  <div class="sticky-div">
+    <div class="bottom">
+      ⚙ Settings
+
+      <div id="logout" style="display:none; margin-top:10px; cursor:pointer; color:#4e4376;" onclick="logout()">
+        🔒 Logout
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <h3>Feedback</h3>
+      <div class="profile">
+        <span>Welcome, {{ session.username }}</span>
+        <img src="/static/log.jpg" alt="Logo Placeholder" />
+      </div>
+    </div>
+    <h2>User Management</h2>
+
+    <form method="POST">
+        <label>Username:</label>
+        <input type="text" name="username" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <label>Role:</label>
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="student">Student</option>
+            <option value="staff">Staff</option>
+        </select>
+
+        <button type="submit">Add User</button>
+    </form>
+
+    <hr>
+
+    <button onclick="toggleData()" style="margin-top:5px; padding:10px 15px; background:#4e4376; color:#fff; border:none; border-radius:8px; cursor:pointer;width:200px;">View Current Users</button>   
+    <div id="hiddenData" style="display:none;">
+    {% if users %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.role }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No users found.</p>
+    {% endif %}
+
+   <script>
+  const settings = document.querySelector('.sidebar .bottom');
+  const logoutBtn = document.getElementById('logout');
+
+  // Toggle logout option
+  settings.addEventListener('click', () => {
+    logoutBtn.style.display = logoutBtn.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Redirect to your existing login page
+function logout(){
+      window.location.href="{{url_for('logout')}}";
+}
+function gotodash(){
+      window.location.href="{{url_for('ad_d.admin_dashboard')}}";
+}
+function gotoaddusers(){
+      window.location.href="{{url_for('ad_u.manage_users')}}";
+}
+function gotostudpay(){
+      window.location.href="{{url_for('ad_p.payment_details')}}";
+}
+function gotosheets(){
+      window.location.href="{{url_for('ad_s.sheet_index')}}";
+}
+function gototable(){
+      window.location.href="{{url_for('ad_t.table')}}";
+}
+function toggleData() {
+    var x = document.getElementById("hiddenData");
+    if (x.style.display === "none") {
+      x.style.display = "block";      // show data
+    } else {
+      x.style.display = "none";       // hide again
+    }
+}
+</script>
+</body>
+</html>

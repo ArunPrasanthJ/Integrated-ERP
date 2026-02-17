@@ -1,0 +1,55 @@
+{% extends 'staff/staff_base.html' %}
+{% block content %}
+    <h1 style="color: #4e4376; margin-bottom: 20px;">Attendance Entry</h1>
+
+    <!-- form for inserting attendance -->
+    <form method="POST" action="{{ url_for('staff_entries.attendance_entry') }}">
+        <h3>Add Attendance</h3>
+        <label>Username:</label>
+        <select name="username" required>
+            <option value="">-- Select student --</option>
+            {% for student in student_c %}
+                <option value="{{ student['username'] }}">{{ student['username'] }}</option>
+            {% endfor %}
+        </select>
+        <label>Date:</label>
+        <input type="date" name="date" required>
+        <label>Status:</label>
+        <select name="status">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Leave">Leave</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2 style="color: #4e4376; margin-top: 30px; margin-bottom: 20px;">Attendance Records</h2>
+
+    <!-- view existing records -->
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in records %}
+            <tr>
+                <td>{{ r.username }}</td>
+                <td>{{ r.date }}</td>
+                <td>
+                    {% if r.status == 'Present' %}
+                        <span class="status status-present">Present</span>
+                    {% elif r.status == 'Absent' %}
+                        <span class="status status-absent">Absent</span>
+                    {% else %}
+                        <span class="status status-leave">Leave</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

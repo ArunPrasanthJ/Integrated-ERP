@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Students Payments</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f4f6fb;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #fff;
+      height: 100vh;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4e4376;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li:hover, .sidebar ul li.active {
+      background: #4e4376;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .sidebar .bottom {
+      padding: 15px 20px;
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h3 {
+      color: #4e4376;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    /* Card */
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: #4e4376;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #eee;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background: #4e4376;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .sticky-div {
+      position: sticky;
+      bottom: 0; /* or top: 0 to stick at top */
+      padding: 5px;
+    }
+    .pass {
+      color: green;
+      font-weight: bold;
+    }
+
+    .fail {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>College ERP</h2>
+      <ul>
+        <li onclick="gotodash()">Dashboard</li>
+        <li onclick="gotoaddusers()">Add users</li>
+        <li class="active">Students payment</li>
+        <li onclick="gotosheets()">Admission sheets</li>
+        <li onclick="gototable()">Form tables</li>
+      </ul>
+    </div>
+  <div class="sticky-div">
+    <div class="bottom">
+      ⚙ Settings
+
+      <div id="logout" style="display:none; margin-top:10px; cursor:pointer; color:#4e4376;" onclick="logout()">
+        🔒 Logout
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <h3>Result</h3>
+      <div class="profile">
+        <span>Welcome, {{ session.username }}</span>
+        <img src="/static/log.jpg" alt="Logo Placeholder" />
+      </div>
+    </div>
+
+    <h2>Payment Details</h2>
+
+    {% if payments %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student Username</th>
+                <th>Amount</th>
+                <th>payment_id</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in payments %}
+            <tr>
+                <td>{{ p.stud_id }}</td>
+                <td>{{ p.name }}</td>
+                <td>{{ p.amount }}</td>
+                <td>{{ p.payment_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No payment records found.</p>
+    {% endif %}
+    </div>
+   <script>
+  const settings = document.querySelector('.sidebar .bottom');
+  const logoutBtn = document.getElementById('logout');
+
+  // Toggle logout option
+  settings.addEventListener('click', () => {
+    logoutBtn.style.display = logoutBtn.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Redirect to your existing login page
+function logout(){
+      window.location.href="{{url_for('logout')}}";
+}
+function gotodash(){
+      window.location.href="{{url_for('ad_d.admin_dashboard')}}";
+}
+function gotoaddusers(){
+      window.location.href="{{url_for('ad_u.manage_users')}}";
+}
+function gotostudpay(){
+      window.location.href="{{url_for('ad_p.payment_details')}}";
+}
+function gotosheets(){
+      window.location.href="{{url_for('ad_s.sheet_index')}}";
+}
+function gototable(){
+      window.location.href="{{url_for('ad_t.table')}}";
+}
+</script>
+</body>
+</html>

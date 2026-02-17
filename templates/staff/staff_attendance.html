@@ -1,0 +1,19 @@
+{% extends 'staff/staff_base.html' %}
+{% block content %}
+    <h1 style="color: #4e4376; margin-bottom: 20px;">Attendance Records</h1>
+
+    <table class="data-table">
+        <thead>
+            <tr><th>Username</th><th>Date</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for r in records %}
+            <tr>
+                <td>{{ r.username }}</td>
+                <td>{{ r.date }}</td>
+                <td><span class="status status-{{ r.status|lower }}">{{ r.status }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel - College ERP</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f4f6fb;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #fff;
+      height: 100vh;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4e4376;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li:hover, .sidebar ul li.active {
+      background: #4e4376;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .sidebar .bottom {
+      padding: 15px 20px;
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h3 {
+      color: #4e4376;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      color: #4e4376;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #eee;
+    }
+
+    th {
+      background: #4e4376;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    a.back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #4e4376;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    a{
+      text-decoration: none;
+      color: #4e4376;
+      font-weight: bold;
+    }
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    form input, form textarea, form select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    #bbb{
+      padding: 10px 20px;
+      background: #4e4376;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    #bbb{
+        background-color: #4e4376;
+    }
+    form button {
+      padding: 10px 20px;
+      background: #4e4376;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: #3b3055;
+    }
+    .sticky-div {
+      position: sticky;
+      bottom: 0; /* or top: 0 to stick at top */
+      padding: 5px;
+    }
+    /* Style the select box */
+    select {
+      width: 100%;                 /* Full width inside the form */
+      padding: 10px;               /* Space inside */
+      border: 1px solid #ccc;      /* Light border */
+      border-radius: 8px;          /* Rounded corners */
+      background-color: #fff;      /* Background */
+      font-size: 16px;             /* Font size */
+      color: #333;                 /* Text color */
+      appearance: none;            /* Remove default arrow */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* Soft shadow */
+    }
+
+    /* Style dropdown options */
+    select option {
+      padding: 10px;
+      font-size: 15px;
+      background: #fff;
+      color: #333;
+    }
+
+    /* On hover for options */
+    select option:hover {
+      background: #f0f0f0;
+    }
+
+    /* Add custom dropdown arrow */
+    select {
+      background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+   <div class="sidebar">
+    <div>
+      <h2>College ERP</h2>
+      <ul>
+        <li onclick="goTodash()">Dashboard</li>
+        <li onclick="goToAttendance()">Attendance</li>
+        <li onclick="goToexam()">Exams Schedule</li>
+        <li onclick="goTomarks()">Result</li>
+        <li onclick="goTopay()">Pay online</li>
+        <li onclick="goToform()">Google forms</li>
+        <li class="active">Hostel</li>
+        <li onclick="goTolib()">Library</li>
+        <li onclick="goTofeed()">Feedback</li>
+      </ul>
+    </div>
+  <div class="sticky-div">
+    <div class="bottom">
+      ⚙ Settings
+
+      <div id="logout" style="display:none; margin-top:10px; cursor:pointer; color:#4e4376;" onclick="logout()">
+        🔒 Logout
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h3>Hostel</h3>
+      <div class="profile">
+        <span>Welcome, {{ session.username }}</span>
+        <img src="/static/log.jpg" alt="Logo Placeholder" />
+      </div>
+    </div>
+    <div class="card">
+         <label>Select the room to allocate</label>
+          <form action="{{ url_for('stud_alloc.allocate') }}" method="POST">
+            <select name="room_id" id="room_id" required>
+              <option value="">-- Choose Room --</option>
+                {% if available_rooms %}
+                  {% for room in available_rooms %}
+                      <option value="{{ room.room_no }}">
+                        Room {{ room.room_no }} | {{ room.type }} | Floor {{ room.floor }} | Cap: {{ room.capacity }} | Avail: {{ room.available }}
+                      </option>
+                    {% endfor %}
+                {% else %}
+                <option disabled>No rooms available</option>
+              {% endif %}
+              <input type="submit" id="bbb" value="Allocate">
+            </select>
+          </form>
+          </div>
+
+   <script>
+  const settings = document.querySelector('.sidebar .bottom');
+  const logoutBtn = document.getElementById('logout');
+
+  // Toggle logout option
+  settings.addEventListener('click', () => {
+    logoutBtn.style.display = logoutBtn.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Redirect to your existing login page
+function goToAttendance() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('student.student_attendance') }}";
+}
+function logout() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('login') }}";
+}
+function goToform() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_form.index') }}";
+}
+function goTomarks() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_mark.mark')}}";
+}
+function goTopay() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_pay.pay') }}";
+}
+function goTohostel() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_alloc.hos') }}";
+}
+function goTodash() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud.student_dashboard') }}";
+}
+function goTolib() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_route.lib') }}";
+}
+function goTofeed() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_route.feedback') }}";
+}
+function goToexam() {
+    // Flask will render the URL here
+    window.location.href = "{{ url_for('stud_route.exams') }}";
+}
+</script>
+</body>
+</html>
