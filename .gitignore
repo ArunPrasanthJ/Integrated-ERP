@@ -1,0 +1,14 @@
+# Python
+*.py linguist-language=Python
+
+# HTML
+*.html linguist-language=HTML
+
+# CSS
+*.css linguist-language=CSS
+
+# JavaScript
+*.js linguist-language=JavaScript
+
+# SQL (MySQL)
+*.sql linguist-language=SQL
